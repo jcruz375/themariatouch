@@ -1,1 +1,21 @@
-// app global css
+// App Global CSS / SCSS
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+body {
+  font-family: 'Manrope', -apple-system, Roboto, sans-serif;
+}
+
+.bg-brand-gradient {
+  background: linear-gradient(135deg, #7FB7DC 0%, #557C97 100%);
+}
+
+.btn-brand-gradient {
+  background: linear-gradient(90deg, #7FB7DC 0%, #557C97 100%);
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 10px;
+}
+
+.card-rounded {
+  border-radius: 10px;
+}

@@ -1,44 +1,61 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
+  <q-layout view="hHh Lpr lFf">
+    <!-- Header Section using Figma Navigation Component -->
+    <q-header flat class="bg-white text-dark">
+      <HeaderNav @toggle-mobile-menu="mobileDrawerOpen = !mobileDrawerOpen" />
     </q-header>
 
+    <!-- Mobile Navigation Drawer -->
     <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
+      v-model="mobileDrawerOpen"
+      side="right"
+      overlay
       bordered
+      behavior="mobile"
+      class="bg-white"
     >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
+      <div class="column full-height q-pa-lg">
+        <div class="row items-center justify-between q-mb-xl">
+          <AppLogo />
+          <q-btn
+            flat
+            dense
+            round
+            icon="close"
+            color="primary"
+            @click="mobileDrawerOpen = false"
+          />
+        </div>
 
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.label"
-          v-bind="link"
-        />
-      </q-list>
+        <q-list class="q-mb-auto">
+          <q-item
+            v-for="item in navItems"
+            :key="item.label"
+            clickable
+            v-ripple
+            :href="item.href"
+            class="mobile-nav-item rounded-borders q-mb-sm"
+            @click="mobileDrawerOpen = false"
+          >
+            <q-item-section class="text-subtitle1 text-weight-bold text-secondary">
+              {{ item.label }}
+            </q-item-section>
+          </q-item>
+        </q-list>
+
+        <div class="q-pt-md">
+          <q-btn
+            unelevated
+            no-caps
+            class="full-width cta-mobile-btn"
+            label="Get a Quote"
+            @click="onGetQuoteMobile"
+          />
+        </div>
+      </div>
     </q-drawer>
 
+    <!-- Main Page Content -->
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -46,57 +63,49 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import EssentialLink, { type EssentialLinkProps } from '@/components/EssentialLink.vue';
+import { ref } from 'vue'
+import HeaderNav from '../components/HeaderNav.vue'
+import AppLogo from '../components/AppLogo.vue'
 
-const linksList: EssentialLinkProps[] = [
-  {
-    label: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    label: 'GitHub',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    label: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    label: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    label: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    label: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    label: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
+const mobileDrawerOpen = ref(false)
+
+const navItems = [
+  { label: 'About', href: '#about' },
+  { label: 'Services', href: '#services' },
+  { label: 'Reviews', href: '#reviews' },
+  { label: 'Contact', href: '#contact' }
+]
+
+function onGetQuoteMobile() {
+  mobileDrawerOpen.value = false
+  const quoteSection = document.getElementById('quote-form')
+  if (quoteSection) {
+    quoteSection.scrollIntoView({ behavior: 'smooth' })
   }
-];
-
-const leftDrawerOpen = ref(false);
-
-function toggleLeftDrawer () {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
 }
 </script>
+
+<style scoped lang="scss">
+.mobile-nav-item {
+  color: #5B88B2;
+  font-family: 'Manrope', sans-serif;
+  font-size: 18px;
+  border-radius: 8px;
+
+  &:hover {
+    background-color: #F3F8FC;
+    color: #334C5D;
+  }
+}
+
+.cta-mobile-btn {
+  background: linear-gradient(135deg, #7FB7DC 0%, #5B88B2 100%);
+  color: #FFFFFF;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(109, 160, 203, 0.3);
+}
+</style>

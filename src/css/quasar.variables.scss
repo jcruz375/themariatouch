@@ -12,14 +12,19 @@
 // to match your app's branding.
 // Tip: Use the "Theme Builder" on Quasar's documentation website.
 
-$primary   : #1976D2;
-$secondary : #26A69A;
-$accent    : #9C27B0;
+// Quasar Sass (& SCSS) Variables
+// --------------------------------------------------
+// Brand colors extracted from Figma design "The Maria Touch" (node 8:14)
 
-$dark      : #1D1D1D;
-$dark-page : #121212;
+$primary   : #7FB7DC; // Brand Pastel Sky Blue (7F B7 DC)
+$secondary : #334C5D; // Dark Slate Blue Accent
+$accent    : #557C97; // Mid Slate Blue
+
+$dark      : #1A2B37;
+$dark-page : #101B23;
 
 $positive  : #21BA45;
 $negative  : #C10015;
 $info      : #31CCEC;
 $warning   : #F2C037;
+
