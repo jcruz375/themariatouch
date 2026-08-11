@@ -63,18 +63,35 @@
 </template>
 
 <script setup lang="ts">
-function scrollToQuote() {
-  const target = document.getElementById('quote-form')
+import { onMounted } from 'vue'
+import gsap from 'gsap'
+
+onMounted(() => {
+  const tl = gsap.timeline()
+  tl.from('.hero-subtitle', { opacity: 0, y: 20, duration: 0.4 })
+    .from('.hero-title', { opacity: 0, y: 30, duration: 0.4 }, '+=0.08')
+    .from('.hero-description', { opacity: 0, y: 20, duration: 0.4 }, '+=0.08')
+    .from('.hero-actions', { opacity: 0, y: 20, duration: 0.4 }, '+=0.08')
+    .from('.hero-phone', { opacity: 0, y: 20, duration: 0.4 }, '+=0.08')
+    .from('.hero-media', { opacity: 0, scale: 0.95, y: 20, duration: 0.4 }, '+=0.08')
+})
+
+function scrollToSection(targetId: string) {
+  const target = document.querySelector(targetId)
   if (target) {
-    target.scrollIntoView({ behavior: 'smooth' })
+    const headerOffset = 90
+    const elementPosition = target.getBoundingClientRect().top
+    const offsetPosition = elementPosition + window.scrollY - headerOffset
+    window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
   }
 }
 
+function scrollToQuote() {
+  scrollToSection('#quote-form')
+}
+
 function scrollToResults() {
-  const target = document.getElementById('results')
-  if (target) {
-    target.scrollIntoView({ behavior: 'smooth' })
-  }
+  scrollToSection('#services')
 }
 </script>
 

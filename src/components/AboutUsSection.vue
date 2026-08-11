@@ -46,6 +46,25 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import gsap from 'gsap'
+import ScrollTrigger from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
+onMounted(() => {
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.about-section',
+      start: 'top 75%'
+    }
+  })
+  tl.from('.about-media', { opacity: 0, x: -40, duration: 0.4 })
+    .from('.about-subtitle', { opacity: 0, y: 20, duration: 0.4 }, '+=0.08')
+    .from('.about-title', { opacity: 0, y: 25, duration: 0.4 }, '+=0.08')
+    .from('.about-description', { opacity: 0, y: 20, duration: 0.4 }, '+=0.08')
+    .from('.about-signature', { opacity: 0, y: 20, duration: 0.4 }, '+=0.08')
+})
 </script>
 
 <style scoped lang="scss">

@@ -51,6 +51,9 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import gsap from 'gsap'
+import ScrollTrigger from 'gsap/ScrollTrigger'
 import service1 from '../assets/service/1.png'
 import service2 from '../assets/service/2.png'
 import service3 from '../assets/service/3.png'
@@ -109,6 +112,26 @@ const services: ServiceItem[] = [
       "Need something different? We'll tailor the service to your home, priorities and schedule."
   }
 ]
+
+gsap.registerPlugin(ScrollTrigger)
+
+onMounted(() => {
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.services-section',
+      start: 'top 75%'
+    }
+  })
+  
+  tl.from('.services-subtitle', { opacity: 0, y: 20, duration: 0.4 })
+    .from('.services-description', { opacity: 0, y: 20, duration: 0.4 }, '+=0.08')
+    .from('.service-card', {
+      opacity: 0,
+      y: 30,
+      duration: 0.4,
+      stagger: 0.1
+    }, '+=0.08')
+})
 </script>
 
 <style scoped lang="scss">

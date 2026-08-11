@@ -1,5 +1,5 @@
 <template>
-  <section id="quote-form" class="contact-section">
+  <section id="contact" class="contact-section">
     <div class="contact-container">
       <div class="contact-grid">
         <!-- Left Column: Contact Info & Stack -->
@@ -82,7 +82,7 @@
 
         <!-- Right Column: Request Quote Form Card -->
         <div class="form-card-column row justify-center items-start">
-          <div class="form-card column">
+          <div id="quote-form" class="form-card column">
             <!-- Form Title -->
             <h3 class="form-title q-ma-none q-mb-lg">Request your free quote</h3>
 
@@ -189,7 +189,11 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
+import gsap from 'gsap'
+import ScrollTrigger from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const form = reactive({
   name: '',
@@ -214,6 +218,22 @@ function handleSubmit() {
     form.agreeTerms = false
   }, 5000)
 }
+
+onMounted(() => {
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.contact-section',
+      start: 'top 75%'
+    }
+  })
+
+  tl.from('.contact-subtitle', { opacity: 0, y: 20, duration: 0.4 })
+    .from('.contact-title', { opacity: 0, y: 25, duration: 0.4 }, '+=0.08')
+    .from('.contact-description', { opacity: 0, y: 20, duration: 0.4 }, '+=0.08')
+    .from('.info-divider', { opacity: 0, scaleX: 0, transformOrigin: 'left center', duration: 0.4 }, '+=0.08')
+    .from('.stack-item', { opacity: 0, x: -25, duration: 0.4, stagger: 0.1 }, '+=0.08')
+    .from('.form-card', { opacity: 0, y: 30, scale: 0.96, duration: 0.4 }, '+=0.08')
+})
 </script>
 
 <style scoped lang="scss">

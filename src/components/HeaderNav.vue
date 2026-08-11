@@ -14,6 +14,7 @@
             :key="item.label"
             :href="item.href"
             class="nav-link"
+            @click.prevent="scrollToSection(item.href)"
           >
             {{ item.label }}
           </a>
@@ -61,11 +62,18 @@ const navItems: NavItem[] = [
   { label: 'Contact', href: '#contact' }
 ]
 
-function onGetQuote() {
-  const quoteSection = document.getElementById('quote-form')
-  if (quoteSection) {
-    quoteSection.scrollIntoView({ behavior: 'smooth' })
+function scrollToSection(targetId: string) {
+  const target = document.querySelector(targetId)
+  if (target) {
+    const headerOffset = 90
+    const elementPosition = target.getBoundingClientRect().top
+    const offsetPosition = elementPosition + window.scrollY - headerOffset
+    window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
   }
+}
+
+function onGetQuote() {
+  scrollToSection('#quote-form')
 }
 </script>
 

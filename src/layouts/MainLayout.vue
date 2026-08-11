@@ -33,9 +33,8 @@
             :key="item.label"
             clickable
             v-ripple
-            :href="item.href"
             class="mobile-nav-item rounded-borders q-mb-sm"
-            @click="mobileDrawerOpen = false"
+            @click="onNavClick(item.href)"
           >
             <q-item-section class="text-subtitle1 text-weight-bold text-secondary">
               {{ item.label }}
@@ -76,12 +75,19 @@ const navItems = [
   { label: 'Contact', href: '#contact' }
 ]
 
-function onGetQuoteMobile() {
+function onNavClick(href: string) {
   mobileDrawerOpen.value = false
-  const quoteSection = document.getElementById('quote-form')
-  if (quoteSection) {
-    quoteSection.scrollIntoView({ behavior: 'smooth' })
+  const target = document.querySelector(href)
+  if (target) {
+    const headerOffset = 90
+    const elementPosition = target.getBoundingClientRect().top
+    const offsetPosition = elementPosition + window.scrollY - headerOffset
+    window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
   }
+}
+
+function onGetQuoteMobile() {
+  onNavClick('#quote-form')
 }
 </script>
 

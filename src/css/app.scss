@@ -1,6 +1,14 @@
 // App Global CSS / SCSS
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 
+html {
+  scroll-behavior: smooth;
+}
+
+section[id], div[id] {
+  scroll-margin-top: 90px;
+}
+
 body {
   font-family: 'Manrope', -apple-system, Roboto, sans-serif;
 }

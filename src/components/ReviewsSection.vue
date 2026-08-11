@@ -39,6 +39,10 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import gsap from 'gsap'
+import ScrollTrigger from 'gsap/ScrollTrigger'
+
 interface ReviewItem {
   name: string
   text: string
@@ -62,6 +66,26 @@ const reviews: ReviewItem[] = [
     text: "We've been using their regular cleaning service for a while now and couldn't be happier. They're consistent, punctual and always leave our home beautifully clean. It gives us so much more time back in our week."
   }
 ]
+
+gsap.registerPlugin(ScrollTrigger)
+
+onMounted(() => {
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.reviews-section',
+      start: 'top 75%'
+    }
+  })
+
+  tl.from('.reviews-subtitle', { opacity: 0, y: 20, duration: 0.4 })
+    .from('.reviews-title', { opacity: 0, y: 25, duration: 0.4 }, '+=0.08')
+    .from('.review-card', {
+      opacity: 0,
+      y: 30,
+      duration: 0.4,
+      stagger: 0.1
+    }, '+=0.08')
+})
 </script>
 
 <style scoped lang="scss">
