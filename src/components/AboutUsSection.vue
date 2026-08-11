@@ -64,6 +64,17 @@ onMounted(() => {
     .from('.about-title', { opacity: 0, y: 25, duration: 0.4 }, '+=0.08')
     .from('.about-description', { opacity: 0, y: 20, duration: 0.4 }, '+=0.08')
     .from('.about-signature', { opacity: 0, y: 20, duration: 0.4 }, '+=0.08')
+
+  gsap.to('.about-img', {
+    y: -40,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.about-section',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: 1
+    }
+  })
 })
 </script>
 

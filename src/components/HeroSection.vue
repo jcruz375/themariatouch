@@ -65,6 +65,9 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import gsap from 'gsap'
+import ScrollTrigger from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 onMounted(() => {
   const tl = gsap.timeline()
@@ -74,6 +77,17 @@ onMounted(() => {
     .from('.hero-actions', { opacity: 0, y: 20, duration: 0.4 }, '+=0.08')
     .from('.hero-phone', { opacity: 0, y: 20, duration: 0.4 }, '+=0.08')
     .from('.hero-media', { opacity: 0, scale: 0.95, y: 20, duration: 0.4 }, '+=0.08')
+
+  gsap.to('.hero-img', {
+    y: 50,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.hero-section',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: 1
+    }
+  })
 })
 
 function scrollToSection(targetId: string) {
