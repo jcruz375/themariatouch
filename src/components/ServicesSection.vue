@@ -51,6 +51,13 @@
 </template>
 
 <script setup lang="ts">
+import service1 from '../assets/service/1.png'
+import service2 from '../assets/service/2.png'
+import service3 from '../assets/service/3.png'
+import service4 from '../assets/service/4.png'
+import service5 from '../assets/service/5.png'
+import service6 from '../assets/service/6.png'
+
 interface ServiceItem {
   image: string
   kicker: string
@@ -60,42 +67,42 @@ interface ServiceItem {
 
 const services: ServiceItem[] = [
   {
-    image: 'https://placehold.co/390x250/e2e8f0/3b7fb7?text=Home+Cleaning',
+    image: service1,
     kicker: 'EVERYDAY CARE',
     title: 'Home Cleaning',
     description:
       'Keep your home consistently fresh and spotless with reliable cleaning tailored to your routine.'
   },
   {
-    image: 'https://placehold.co/390x250/e2e8f0/3b7fb7?text=Deep+Cleaning',
+    image: service2,
     kicker: 'A FRESH START',
     title: 'Deep Cleaning',
     description:
       'A detailed top-to-bottom clean for the areas that need a little extra attention and care.'
   },
   {
-    image: 'https://placehold.co/390x250/e2e8f0/3b7fb7?text=End+of+Lease',
+    image: service3,
     kicker: 'MOVE WITH CONFIDENCE',
     title: 'End of Lease',
     description:
       'Thorough cleaning designed to leave your property spotless, refreshed and ready for handover.'
   },
   {
-    image: 'https://placehold.co/390x250/e2e8f0/3b7fb7?text=One-Off+Cleaning',
+    image: service4,
     kicker: 'MORE TIME FOR YOU',
     title: 'One-Off Cleaning',
     description:
       'Professional cleaning whenever you need an extra hand — no ongoing commitment required.'
   },
   {
-    image: 'https://placehold.co/390x250/e2e8f0/3b7fb7?text=Kitchen+%26+Bathroom',
+    image: service5,
     kicker: 'THE FINISHING TOUCH',
     title: 'Kitchen & Bathroom',
     description:
       'Extra attention where it matters most, leaving kitchens and bathrooms fresh, hygienic and beautifully clean.'
   },
   {
-    image: 'https://placehold.co/390x250/e2e8f0/3b7fb7?text=Custom+Cleaning',
+    image: service6,
     kicker: 'MADE FOR YOUR HOME',
     title: 'Custom Cleaning',
     description:
