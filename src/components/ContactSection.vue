@@ -47,7 +47,7 @@
                 </svg>
               </div>
               <div class="stack-text column">
-                <a href="https://wa.me/61426658642" target="_blank" rel="noopener" class="item-title">WhatsApp us</a>
+                <a :href="whatsappUrl" target="_blank" rel="noopener" class="item-title">WhatsApp us</a>
                 <span class="item-label">FASTEST REPLY</span>
               </div>
             </div>
@@ -192,8 +192,11 @@
 import { reactive, ref, onMounted } from 'vue'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
+import { getWhatsAppUrl, openWhatsAppQuote } from '../utils/whatsapp'
 
 gsap.registerPlugin(ScrollTrigger)
+
+const whatsappUrl = getWhatsAppUrl()
 
 const form = reactive({
   name: '',
@@ -208,6 +211,18 @@ const submitted = ref(false)
 
 function handleSubmit() {
   submitted.value = true
+
+  const parts = [
+    `Hello! I would like to request a free quote for cleaning services.`
+  ]
+  if (form.name) parts.push(`*Name:* ${form.name}`)
+  if (form.suburb) parts.push(`*Suburb:* ${form.suburb}`)
+  if (form.phone) parts.push(`*Phone:* ${form.phone}`)
+  if (form.serviceType) parts.push(`*Service:* ${form.serviceType}`)
+  if (form.details) parts.push(`*Details:* ${form.details}`)
+
+  openWhatsAppQuote(parts.join('\n'))
+
   setTimeout(() => {
     submitted.value = false
     form.name = ''

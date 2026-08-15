@@ -74,6 +74,7 @@
 import { onMounted, onUnmounted } from 'vue'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
+import { openWhatsAppQuote } from '../utils/whatsapp'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -223,7 +224,7 @@ function scrollToSection(targetId: string) {
 }
 
 function scrollToQuote() {
-  scrollToSection('#quote-form')
+  openWhatsAppQuote()
 }
 
 function scrollToResults() {

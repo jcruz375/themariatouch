@@ -65,6 +65,7 @@
 import { ref } from 'vue'
 import HeaderNav from '../components/HeaderNav.vue'
 import AppLogo from '../components/AppLogo.vue'
+import { openWhatsAppQuote } from '../utils/whatsapp'
 
 const mobileDrawerOpen = ref(false)
 
@@ -87,7 +88,8 @@ function onNavClick(href: string) {
 }
 
 function onGetQuoteMobile() {
-  onNavClick('#quote-form')
+  mobileDrawerOpen.value = false
+  openWhatsAppQuote()
 }
 </script>
 

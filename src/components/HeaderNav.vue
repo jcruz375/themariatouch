@@ -47,6 +47,7 @@
 
 <script setup lang="ts">
 import AppLogo from './AppLogo.vue'
+import { openWhatsAppQuote } from '../utils/whatsapp'
 
 defineEmits(['toggle-mobile-menu'])
 
@@ -73,7 +74,7 @@ function scrollToSection(targetId: string) {
 }
 
 function onGetQuote() {
-  scrollToSection('#quote-form')
+  openWhatsAppQuote()
 }
 </script>
 
