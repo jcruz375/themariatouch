@@ -27,6 +27,7 @@
           <div class="card-image-wrap q-mb-lg">
             <img
               :src="service.image"
+              :srcset="`${service.image} 1x, ${service.image2x} 2x`"
               :alt="service.title"
               class="card-img"
               loading="lazy"
@@ -54,15 +55,10 @@
 import { onMounted } from 'vue'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
-import service1 from '../assets/service/1.png'
-import service2 from '../assets/service/2.png'
-import service3 from '../assets/service/3.png'
-import service4 from '../assets/service/4.png'
-import service5 from '../assets/service/5.png'
-import service6 from '../assets/service/6.png'
 
 interface ServiceItem {
   image: string
+  image2x: string
   kicker: string
   title: string
   description: string
@@ -70,42 +66,48 @@ interface ServiceItem {
 
 const services: ServiceItem[] = [
   {
-    image: service1,
+    image: '/service/1.png',
+    image2x: '/service/1@2x.png',
     kicker: 'EVERYDAY CARE',
     title: 'Home Cleaning',
     description:
       'Keep your home consistently fresh and spotless with reliable cleaning tailored to your routine.'
   },
   {
-    image: service2,
+    image: '/service/2.png',
+    image2x: '/service/2@2x.png',
     kicker: 'A FRESH START',
     title: 'Deep Cleaning',
     description:
       'A detailed top-to-bottom clean for the areas that need a little extra attention and care.'
   },
   {
-    image: service3,
+    image: '/service/3.png',
+    image2x: '/service/3@2x.png',
     kicker: 'MOVE WITH CONFIDENCE',
     title: 'End of Lease',
     description:
       'Thorough cleaning designed to leave your property spotless, refreshed and ready for handover.'
   },
   {
-    image: service4,
+    image: '/service/4.png',
+    image2x: '/service/4@2x.png',
     kicker: 'MORE TIME FOR YOU',
     title: 'One-Off Cleaning',
     description:
       'Professional cleaning whenever you need an extra hand — no ongoing commitment required.'
   },
   {
-    image: service5,
+    image: '/service/5.png',
+    image2x: '/service/5@2x.png',
     kicker: 'THE FINISHING TOUCH',
     title: 'Kitchen & Bathroom',
     description:
       'Extra attention where it matters most, leaving kitchens and bathrooms fresh, hygienic and beautifully clean.'
   },
   {
-    image: service6,
+    image: '/service/6.png',
+    image2x: '/service/6@2x.png',
     kicker: 'MADE FOR YOUR HOME',
     title: 'Custom Cleaning',
     description:

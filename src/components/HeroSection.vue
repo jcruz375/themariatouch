@@ -48,13 +48,21 @@
         </div>
       </div>
 
-      <!-- Right Column: Featured Image -->
+      <!-- Right Column: Featured Image Container (580x464) -->
       <div class="hero-media col-12 col-md-6 q-mt-xl q-mt-md-none row justify-center items-center">
-        <div class="image-wrapper">
+        <div class="hero-media-wrapper">
+          <!-- Kitchen Background (hero-1.png) -->
           <img
-            src="../assets/hero-1.png"
-            alt="The Maria Touch Professional Cleaners in Kitchen"
-            class="hero-img"
+            src="/images/hero-1.png"
+            alt="Kitchen Background"
+            class="hero-bg-img"
+          />
+
+          <!-- Right Woman (hero-1b.png) - Positioned on white countertop -->
+          <img
+            src="/images/hero-1b.png"
+            alt="Cleaner Right"
+            class="hero-woman-right"
           />
         </div>
       </div>
@@ -63,13 +71,116 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
+let destroyParallax: (() => void) | null = null
+
+function isSafari(): boolean {
+  if (typeof navigator === 'undefined') return false
+  const ua = navigator.userAgent
+  return /Safari/i.test(ua) && !/Chrome|CriOS|Android|Edg|OPR/i.test(ua)
+}
+
+function initParallaxTilt() {
+  const womanEl = document.querySelector('.hero-woman-right')
+  const bgEl = document.querySelector('.hero-bg-img')
+
+  const elementsWithMax = [
+    { el: bgEl, max: -4 },
+    { el: womanEl, max: 14 }
+  ]
+
+  const LIMIT_PX = 16
+
+  // Aumentado duration para 1.4s para um movimento e retorno mais lentos, fluidos e elegantes
+  const movers = elementsWithMax
+    .map(({ el, max }) => {
+      if (!el) return null
+      gsap.set(el, { willChange: 'transform' })
+      return {
+        xTo: gsap.quickTo(el, 'x', { duration: 1.4, ease: 'power2.out' }),
+        yTo: gsap.quickTo(el, 'y', { duration: 1.4, ease: 'power2.out' }),
+        max
+      }
+    })
+    .filter(Boolean)
+
+  if (movers.length === 0) return () => {}
+
+  const shiftX = (nx: number, max: number) => gsap.utils.clamp(-LIMIT_PX, LIMIT_PX, nx * max)
+  // Menor ângulo na diagonal (Y é 25% de X)
+  const shiftY = (nx: number, max: number) => gsap.utils.clamp(-LIMIT_PX, LIMIT_PX, -nx * (max * 0.25))
+
+  let mouseTimer: ReturnType<typeof setTimeout> | null = null
+
+  // Retorno suave para a posição inicial (0, 0)
+  const resetToCenter = () => {
+    movers.forEach((mover) => {
+      if (mover) {
+        mover.xTo(0)
+        mover.yTo(0)
+      }
+    })
+  }
+
+  // Mouse move handler (Desktop) - Movimento lento para onde o mouse está
+  const onMove = (e: MouseEvent) => {
+    if (mouseTimer) clearTimeout(mouseTimer)
+
+    const nx = (e.clientX / window.innerWidth - 0.5) * 2 // -1 to +1
+    movers.forEach((mover) => {
+      if (mover) {
+        mover.xTo(shiftX(nx, mover.max))
+        mover.yTo(shiftY(nx, mover.max))
+      }
+    })
+
+    // Após o mouse parar, inicia retorno lento para a posição inicial
+    mouseTimer = setTimeout(resetToCenter, 1000)
+  }
+
+  // Mouse leave handler - Retorno lento ao sair da janela
+  const onMouseLeave = () => {
+    if (mouseTimer) clearTimeout(mouseTimer)
+    resetToCenter()
+  }
+
+  // Device orientation / tilt handler (Mobile)
+  const onTilt = (e: DeviceOrientationEvent) => {
+    const nx = gsap.utils.clamp(-1, 1, (e.gamma || 0) / 45) // -1 to +1
+    movers.forEach((mover) => {
+      if (mover) {
+        mover.xTo(shiftX(nx, mover.max))
+        mover.yTo(shiftY(nx, mover.max))
+      }
+    })
+  }
+
+  window.addEventListener('mousemove', onMove, { passive: true })
+  window.addEventListener('mouseleave', onMouseLeave, { passive: true })
+
+  // Desabilita o giroscópio (deviceorientation) se for navegador Safari por incompatibilidade
+  const safari = isSafari()
+  if (!safari) {
+    window.addEventListener('deviceorientation', onTilt, { passive: true })
+  }
+
+  return function destroy() {
+    if (mouseTimer) clearTimeout(mouseTimer)
+    window.removeEventListener('mousemove', onMove)
+    window.removeEventListener('mouseleave', onMouseLeave)
+    if (!safari) {
+      window.removeEventListener('deviceorientation', onTilt)
+    }
+  }
+}
+
 onMounted(() => {
+  // Entrance Animation Timeline
   const tl = gsap.timeline()
   tl.from('.hero-subtitle', { opacity: 0, y: 20, duration: 0.4 })
     .from('.hero-title', { opacity: 0, y: 30, duration: 0.4 }, '+=0.08')
@@ -77,9 +188,11 @@ onMounted(() => {
     .from('.hero-actions', { opacity: 0, y: 20, duration: 0.4 }, '+=0.08')
     .from('.hero-phone', { opacity: 0, y: 20, duration: 0.4 }, '+=0.08')
     .from('.hero-media', { opacity: 0, scale: 0.95, y: 20, duration: 0.4 }, '+=0.08')
+    .from('.hero-woman-right', { opacity: 0, x: 45, y: 15, scale: 0.96, duration: 0.7, ease: 'back.out(1.2)' }, '-=0.25')
 
-  gsap.to('.hero-img', {
-    y: 50,
+  // Scroll Parallax Effect on Hero Media
+  gsap.to('.hero-media-wrapper', {
+    y: 30,
     ease: 'none',
     scrollTrigger: {
       trigger: '.hero-section',
@@ -88,6 +201,15 @@ onMounted(() => {
       scrub: 1
     }
   })
+
+  // Initialize 3D Horizontal Parallax (Mouse Follow + Device Tilt)
+  destroyParallax = initParallaxTilt()
+})
+
+onUnmounted(() => {
+  if (destroyParallax) {
+    destroyParallax()
+  }
 })
 
 function scrollToSection(targetId: string) {
@@ -247,19 +369,48 @@ function scrollToResults() {
   }
 }
 
-.image-wrapper {
-  max-width: 580px;
+/* Featured Media Container - 580x464 */
+.hero-media-wrapper {
+  position: relative;
   width: 100%;
+  max-width: 580px;
+  height: 464px;
+  border-radius: 24px;
   overflow: hidden;
-  border-radius: 20px;
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+  background-color: #F7FAFC;
+
 }
 
-.hero-img {
+/* Kitchen Background (hero-1.png) */
+.hero-bg-img {
   width: 100%;
-  height: auto;
-  display: block;
+  height: 100%;
   object-fit: cover;
-  border-radius: 20px;
+  display: block;
+  transform: scale(1.06);
+  will-change: transform;
+}
+
+/* Right Woman (hero-1b.png) */
+.hero-woman-right {
+  position: absolute;
+  bottom: 16px;
+  right: -129px;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  will-change: transform;
+
+  @media (max-width: 600px) {
+    bottom: 10px;
+    max-width: unset;
+  }
+
+  @media (max-width: 500px) {
+    bottom: -5px;
+  }
 }
 </style>
