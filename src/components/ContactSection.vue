@@ -171,14 +171,21 @@
                 </label>
               </div>
 
+              <!-- Honeypot Anti-Spam Field -->
+              <input type="checkbox" name="botcheck" class="hidden-honeypot" v-model="form.botcheck" tabindex="-1" autocomplete="off" />
+
               <!-- Submit CTA Button -->
-              <button type="submit" class="submit-cta-btn q-mt-md">
-                GET MY FREE QUOTE →
+              <button type="submit" class="submit-cta-btn q-mt-md" :disabled="isSubmitting">
+                <span v-if="isSubmitting">SENDING...</span>
+                <span v-else>GET MY FREE QUOTE →</span>
               </button>
 
-              <!-- Success Message Feedback -->
+              <!-- Feedback Messages -->
               <div v-if="submitted" class="success-message q-mt-md text-center">
                 Thank you! Your quote request has been sent successfully. We will be in touch shortly.
+              </div>
+              <div v-if="errorMessage" class="error-message q-mt-md text-center">
+                {{ errorMessage }}
               </div>
             </form>
           </div>
@@ -204,34 +211,77 @@ const form = reactive({
   phone: '',
   serviceType: 'Regular Home Cleaning',
   details: '',
-  agreeTerms: false
+  agreeTerms: false,
+  botcheck: false
 })
 
+const isSubmitting = ref(false)
 const submitted = ref(false)
+const errorMessage = ref('')
 
-function handleSubmit() {
-  submitted.value = true
+async function handleSubmit() {
+  if (form.botcheck) {
+    // Bot detected via honeypot
+    return
+  }
 
-  const parts = [
-    `Hello! I would like to request a free quote for cleaning services.`
-  ]
-  if (form.name) parts.push(`*Name:* ${form.name}`)
-  if (form.suburb) parts.push(`*Suburb:* ${form.suburb}`)
-  if (form.phone) parts.push(`*Phone:* ${form.phone}`)
-  if (form.serviceType) parts.push(`*Service:* ${form.serviceType}`)
-  if (form.details) parts.push(`*Details:* ${form.details}`)
+  isSubmitting.value = true
+  submitted.value = false
+  errorMessage.value = ''
 
-  openWhatsAppQuote(parts.join('\n'))
+  const web3FormsKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '16cf6d9b-88c3-4022-8904-0bccd7f2ccb4'
 
-  setTimeout(() => {
-    submitted.value = false
+  try {
+    const formData = new FormData()
+    formData.append('access_key', web3FormsKey)
+    formData.append('subject', `New Quote Request from ${form.name} - The Maria Touch`)
+    formData.append('from_name', 'The Maria Touch Web Form')
+    formData.append('to_email', 'mariaeduarda_@hotmail.com')
+    formData.append('name', form.name)
+    formData.append('suburb', form.suburb)
+    formData.append('phone', form.phone)
+    formData.append('service_type', form.serviceType)
+    formData.append('details', form.details)
+
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formData
+    })
+
+    const result = await response.json()
+    if (!result.success) {
+      throw new Error(result.message || 'Failed to send email.')
+    }
+
+    submitted.value = true
+
     form.name = ''
     form.suburb = ''
     form.phone = ''
     form.serviceType = 'Regular Home Cleaning'
     form.details = ''
     form.agreeTerms = false
-  }, 5000)
+    form.botcheck = false
+  } catch (err: any) {
+    console.error('Email send error:', err)
+    // Fallback: if email fails, open WhatsApp as backup so the lead is never lost
+    errorMessage.value = 'Failed to send email. Opening WhatsApp...'
+    const parts = [
+      `Hello! I would like to request a free quote for cleaning services.`
+    ]
+    if (form.name) parts.push(`*Name:* ${form.name}`)
+    if (form.suburb) parts.push(`*Suburb:* ${form.suburb}`)
+    if (form.phone) parts.push(`*Phone:* ${form.phone}`)
+    if (form.serviceType) parts.push(`*Service:* ${form.serviceType}`)
+    if (form.details) parts.push(`*Details:* ${form.details}`)
+
+    openWhatsAppQuote(parts.join('\n'))
+  } finally {
+    isSubmitting.value = false
+    setTimeout(() => {
+      submitted.value = false
+    }, 6000)
+  }
 }
 
 onMounted(() => {
@@ -523,6 +573,14 @@ a.item-title {
   cursor: pointer;
 }
 
+.hidden-honeypot {
+  display: none !important;
+  opacity: 0;
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+
 .submit-cta-btn {
   width: 100%;
   background: linear-gradient(135deg, #6DA0CB 0%, #3B7FB7 100%);
@@ -538,10 +596,16 @@ a.item-title {
   box-shadow: 0 6px 16px rgba(59, 127, 183, 0.3);
   transition: all 0.25s ease;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: linear-gradient(135deg, #5B92BE 0%, #2E6DA4 100%);
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(59, 127, 183, 0.4);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
   }
 }
 
@@ -551,6 +615,16 @@ a.item-title {
   font-weight: 600;
   color: #166534;
   background-color: #DCFCE7;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.error-message {
+  font-family: 'Inter', 'Manrope', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #991B1B;
+  background-color: #FEE2E2;
   padding: 12px;
   border-radius: 8px;
 }
