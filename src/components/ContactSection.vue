@@ -229,7 +229,7 @@ async function handleSubmit() {
   submitted.value = false
   errorMessage.value = ''
 
-  const web3FormsKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '16cf6d9b-88c3-4022-8904-0bccd7f2ccb4'
+  const web3FormsKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '0073be45-a222-41c5-bfc5-4e96264a664e'
 
   try {
     const formData = new FormData()
