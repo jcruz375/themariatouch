@@ -54,14 +54,14 @@
           <!-- Kitchen Background (hero-1.png) -->
           <img
             src="/images/hero-1.png"
-            alt="Kitchen Background"
+            alt="Before and after end of lease bond cleaning in a Melbourne kitchen"
             class="hero-bg-img"
           />
 
           <!-- Right Woman (hero-1b.png) - Positioned on white countertop -->
           <img
             src="/images/hero-1b.png"
-            alt="Cleaner Right"
+            alt="Fully uniformed, police-checked cleaning staff arriving at a residential property in Melbourne"
             class="hero-woman-right"
           />
         </div>

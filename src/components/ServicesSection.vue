@@ -6,7 +6,7 @@
         <!-- Subtitle / Kicker -->
         <div class="services-subtitle row items-center q-mb-md">
           <span class="subtitle-line q-mr-sm"></span>
-          <span class="subtitle-text">OUR SERVICES</span>
+          <h2 class="subtitle-text q-ma-none">OUR SERVICES</h2>
         </div>
 
         <!-- Section Description -->

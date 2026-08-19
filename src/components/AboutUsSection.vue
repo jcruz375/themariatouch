@@ -6,7 +6,7 @@
         <div class="image-wrapper">
           <img
             src="/images/hero-2.png"
-            alt="The Maria Touch Cleaners in Living Room"
+            alt="Professional carpet steam cleaning results removing deep stains in a Melbourne living room"
             class="about-img"
           />
         </div>
