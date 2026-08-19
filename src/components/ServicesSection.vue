@@ -6,7 +6,7 @@
         <!-- Subtitle / Kicker -->
         <div class="services-subtitle row items-center q-mb-md">
           <span class="subtitle-line q-mr-sm"></span>
-          <span class="subtitle-text">— OUR SERVICES</span>
+          <span class="subtitle-text">OUR SERVICES</span>
         </div>
 
         <!-- Section Description -->
@@ -124,7 +124,7 @@ onMounted(() => {
       start: 'top 75%'
     }
   })
-  
+
   tl.from('.services-subtitle', { opacity: 0, y: 20, duration: 0.4 })
     .from('.services-description', { opacity: 0, y: 20, duration: 0.4 }, '+=0.08')
     .from('.service-card', {

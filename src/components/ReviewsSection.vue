@@ -6,12 +6,12 @@
         <!-- Subtitle Kicker (Right-aligned on desktop) -->
         <div class="reviews-subtitle row items-center justify-end-desktop q-mb-md">
           <span class="subtitle-line q-mr-sm"></span>
-          <span class="subtitle-text">— OUR REVIEWS</span>
+          <span class="subtitle-text">OUR REVIEWS</span>
         </div>
 
         <!-- Main Headline H2 -->
         <h2 class="reviews-title q-ma-none">
-          TRUSTED TO MAKE HOMES SHINE
+          TRUSTED TO MAKE <br class="lt-md" />HOMES SHINE
         </h2>
       </div>
 

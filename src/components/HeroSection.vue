@@ -6,7 +6,7 @@
         <!-- Subtitle Badge / Tagline -->
         <div class="hero-subtitle row items-center q-mb-md">
           <span class="subtitle-line q-mr-sm"></span>
-          <span class="subtitle-text">— RESIDENCIAL CLEANING • AUSTRALIA</span>
+          <span class="subtitle-text">RESIDENCIAL CLEANING • AUSTRALIA</span>
         </div>
 
         <!-- Main Headline -->

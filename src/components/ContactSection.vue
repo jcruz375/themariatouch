@@ -7,7 +7,7 @@
           <!-- Kicker Tag -->
           <div class="contact-subtitle row items-center q-mb-md">
             <span class="subtitle-line q-mr-sm"></span>
-            <span class="subtitle-text">— CONTACT US</span>
+            <span class="subtitle-text">CONTACT US</span>
           </div>
 
           <!-- Main Title H2 -->
@@ -158,12 +158,12 @@
               </div>
 
               <!-- Field 6: Terms Checkbox -->
-              <div class="form-group row items-start no-wrap q-mt-xs">
+              <div class="terms-group form-group row items-start no-wrap q-mt-md q-mb-xs">
                 <input
                   id="form-terms"
                   v-model="form.agreeTerms"
                   type="checkbox"
-                  class="field-checkbox q-mr-sm q-mt-xs"
+                  class="field-checkbox q-mr-sm"
                   required
                 />
                 <label for="form-terms" class="checkbox-label">
@@ -175,7 +175,7 @@
               <input type="checkbox" name="botcheck" class="hidden-honeypot" v-model="form.botcheck" tabindex="-1" autocomplete="off" />
 
               <!-- Submit CTA Button -->
-              <button type="submit" class="submit-cta-btn q-mt-md" :disabled="isSubmitting">
+              <button type="submit" class="submit-cta-btn q-mt-lg" :disabled="isSubmitting">
                 <span v-if="isSubmitting">SENDING...</span>
                 <span v-else>GET MY FREE QUOTE →</span>
               </button>
@@ -560,6 +560,7 @@ a.item-title {
 .field-checkbox {
   width: 18px;
   height: 18px;
+  margin-top: 2px;
   accent-color: #3B7FB7;
   cursor: pointer;
   flex-shrink: 0;
@@ -568,7 +569,7 @@ a.item-title {
 .checkbox-label {
   font-family: 'Inter', 'Manrope', sans-serif;
   font-size: 13px;
-  line-height: 1.4;
+  line-height: 1.45;
   color: #5E7A92;
   cursor: pointer;
 }

@@ -1,22 +1,23 @@
 <template>
   <section id="about" class="about-section">
     <div class="about-container row items-center justify-between">
-      <!-- Left Column: Image -->
-      <div class="about-media col-12 col-md-6 q-mb-xl q-mb-md-none row justify-center items-center">
+      <!-- Media Column (Desktop: Left, Mobile: Below Text) -->
+      <div class="about-media col-12 col-md-6 q-mt-xl q-mt-md-none row justify-center items-center">
         <div class="image-wrapper">
           <img
-            src="../assets/hero-2.png"
+            src="/images/hero-2.png"
             alt="The Maria Touch Cleaners in Living Room"
             class="about-img"
           />
         </div>
       </div>
 
-      <!-- Right Column: Content -->
+      <!-- Content Column (Desktop: Right, Mobile: Above Image) -->
       <div class="about-content col-12 col-md-6 q-pl-md-xl column justify-center">
         <!-- Subtitle Kicker -->
         <div class="about-subtitle row items-center justify-end-desktop q-mb-md">
-          <span class="subtitle-text">— ABOUT US</span>
+          <span class="subtitle-line q-mr-sm"></span>
+          <span class="subtitle-text">ABOUT US</span>
         </div>
 
         <!-- Headline H2 -->
@@ -99,6 +100,22 @@ onMounted(() => {
   }
 }
 
+.about-media {
+  order: 2;
+
+  @media (min-width: 1024px) {
+    order: 1;
+  }
+}
+
+.about-content {
+  order: 1;
+
+  @media (min-width: 1024px) {
+    order: 2;
+  }
+}
+
 .image-wrapper {
   max-width: 580px;
   width: 100%;
@@ -125,6 +142,13 @@ onMounted(() => {
   @media (max-width: 768px) {
     justify-content: flex-start;
   }
+}
+
+.subtitle-line {
+  display: inline-block;
+  width: 32px;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .subtitle-text {
